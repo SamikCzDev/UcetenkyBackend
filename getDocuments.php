@@ -18,11 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($userId) {
             // Generování tokenu
-            $stmt2 = $pdo->prepare('SELECT userName, mail FROM users WHERE id = ?');
+            $stmt2 = $pdo->prepare('SELECT name, expiration, type FROM document WHERE userId = ?');
             $stmt2->execute([$userId['userId']]);
-            $userInfo = $stmt2->fetch();
+            $documents = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
-            echo json_encode(['userName' => $userInfo['userName'],'userId' => $userInfo['userId'], 'mail' => $userInfo['mail']]);
+            echo json_encode($documents);
 
             http_response_code(200);
         } else {
@@ -34,3 +34,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
+

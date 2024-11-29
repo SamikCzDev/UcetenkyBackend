@@ -23,8 +23,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode(['token' => $token, 'userId' => $user['id']]);
             $stmt2 = $pdo->prepare('INSERT INTO `tokens`(`userId`, `token`) VALUES (?,?)');
             $stmt2->execute([$user['id'],$token]);
+            http_response_code(200);
         } else {
             echo json_encode(['error' => 'Nesprávný e-mail nebo heslo.']);
+            http_response_code(200);
         }
     } catch (\PDOException $e) {
         echo json_encode(['error' => 'Chyba při přihlašování: ' . $e->getMessage()]);
